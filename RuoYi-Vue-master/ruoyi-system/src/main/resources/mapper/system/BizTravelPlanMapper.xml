@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizTravelPlanMapper">
+    
+    <resultMap type="BizTravelPlan" id="BizTravelPlanResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="departureCity"    column="departure_city"    />
+        <result property="destinationCity"    column="destination_city"    />
+        <result property="travelDays"    column="travel_days"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate"    column="end_date"    />
+        <result property="totalBudget"    column="total_budget"    />
+        <result property="peopleCount"    column="people_count"    />
+        <result property="peopleType"    column="people_type"    />
+        <result property="consumptionLevel"    column="consumption_level"    />
+        <result property="trafficPrefer"    column="traffic_prefer"    />
+        <result property="accommodationPrefer"    column="accommodation_prefer"    />
+        <result property="scenicTypePrefer"    column="scenic_type_prefer"    />
+        <result property="planTitle"    column="plan_title"    />
+        <result property="planSummary"    column="plan_summary"    />
+        <result property="planSource"    column="plan_source"    />
+        <result property="planStatus"    column="plan_status"    />
+        <result property="totalCost"    column="total_cost"    />
+        <result property="spotCount"    column="spot_count"    />
+        <result property="aiModel"    column="ai_model"    />
+        <result property="generationTime"    column="generation_time"    />
+        <result property="promptSnapshot"    column="prompt_snapshot"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizTravelPlanVo">
+        select id, user_id, departure_city, destination_city, travel_days, start_date, end_date, total_budget, people_count, people_type, consumption_level, traffic_prefer, accommodation_prefer, scenic_type_prefer, plan_title, plan_summary, plan_source, plan_status, total_cost, spot_count, ai_model, generation_time, prompt_snapshot, create_by, create_time, update_by, update_time, remark, del_flag from biz_travel_plan
+    </sql>
+
+    <select id="selectBizTravelPlanList" parameterType="BizTravelPlan" resultMap="BizTravelPlanResult">
+        <include refid="selectBizTravelPlanVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="departureCity != null  and departureCity != ''"> and departure_city = #{departureCity}</if>
+            <if test="destinationCity != null  and destinationCity != ''"> and destination_city = #{destinationCity}</if>
+            <if test="travelDays != null "> and travel_days = #{travelDays}</if>
+            <if test="startDate != null "> and start_date = #{startDate}</if>
+            <if test="endDate != null "> and end_date = #{endDate}</if>
+            <if test="totalBudget != null "> and total_budget = #{totalBudget}</if>
+            <if test="peopleCount != null "> and people_count = #{peopleCount}</if>
+            <if test="peopleType != null  and peopleType != ''"> and people_type = #{peopleType}</if>
+            <if test="consumptionLevel != null "> and consumption_level = #{consumptionLevel}</if>
+            <if test="trafficPrefer != null "> and traffic_prefer = #{trafficPrefer}</if>
+            <if test="accommodationPrefer != null "> and accommodation_prefer = #{accommodationPrefer}</if>
+            <if test="scenicTypePrefer != null  and scenicTypePrefer != ''"> and scenic_type_prefer = #{scenicTypePrefer}</if>
+            <if test="planTitle != null  and planTitle != ''"> and plan_title = #{planTitle}</if>
+            <if test="planSummary != null  and planSummary != ''"> and plan_summary = #{planSummary}</if>
+            <if test="planSource != null "> and plan_source = #{planSource}</if>
+            <if test="planStatus != null "> and plan_status = #{planStatus}</if>
+            <if test="totalCost != null "> and total_cost = #{totalCost}</if>
+            <if test="spotCount != null "> and spot_count = #{spotCount}</if>
+            <if test="aiModel != null  and aiModel != ''"> and ai_model = #{aiModel}</if>
+            <if test="generationTime != null "> and generation_time = #{generationTime}</if>
+            <if test="promptSnapshot != null  and promptSnapshot != ''"> and prompt_snapshot = #{promptSnapshot}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizTravelPlanById" parameterType="Long" resultMap="BizTravelPlanResult">
+        <include refid="selectBizTravelPlanVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizTravelPlan" parameterType="BizTravelPlan" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_travel_plan
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="departureCity != null">departure_city,</if>
+            <if test="destinationCity != null and destinationCity != ''">destination_city,</if>
+            <if test="travelDays != null">travel_days,</if>
+            <if test="startDate != null">start_date,</if>
+            <if test="endDate != null">end_date,</if>
+            <if test="totalBudget != null">total_budget,</if>
+            <if test="peopleCount != null">people_count,</if>
+            <if test="peopleType != null">people_type,</if>
+            <if test="consumptionLevel != null">consumption_level,</if>
+            <if test="trafficPrefer != null">traffic_prefer,</if>
+            <if test="accommodationPrefer != null">accommodation_prefer,</if>
+            <if test="scenicTypePrefer != null">scenic_type_prefer,</if>
+            <if test="planTitle != null">plan_title,</if>
+            <if test="planSummary != null">plan_summary,</if>
+            <if test="planSource != null">plan_source,</if>
+            <if test="planStatus != null">plan_status,</if>
+            <if test="totalCost != null">total_cost,</if>
+            <if test="spotCount != null">spot_count,</if>
+            <if test="aiModel != null">ai_model,</if>
+            <if test="generationTime != null">generation_time,</if>
+            <if test="promptSnapshot != null">prompt_snapshot,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="departureCity != null">#{departureCity},</if>
+            <if test="destinationCity != null and destinationCity != ''">#{destinationCity},</if>
+            <if test="travelDays != null">#{travelDays},</if>
+            <if test="startDate != null">#{startDate},</if>
+            <if test="endDate != null">#{endDate},</if>
+            <if test="totalBudget != null">#{totalBudget},</if>
+            <if test="peopleCount != null">#{peopleCount},</if>
+            <if test="peopleType != null">#{peopleType},</if>
+            <if test="consumptionLevel != null">#{consumptionLevel},</if>
+            <if test="trafficPrefer != null">#{trafficPrefer},</if>
+            <if test="accommodationPrefer != null">#{accommodationPrefer},</if>
+            <if test="scenicTypePrefer != null">#{scenicTypePrefer},</if>
+            <if test="planTitle != null">#{planTitle},</if>
+            <if test="planSummary != null">#{planSummary},</if>
+            <if test="planSource != null">#{planSource},</if>
+            <if test="planStatus != null">#{planStatus},</if>
+            <if test="totalCost != null">#{totalCost},</if>
+            <if test="spotCount != null">#{spotCount},</if>
+            <if test="aiModel != null">#{aiModel},</if>
+            <if test="generationTime != null">#{generationTime},</if>
+            <if test="promptSnapshot != null">#{promptSnapshot},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizTravelPlan" parameterType="BizTravelPlan">
+        update biz_travel_plan
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="departureCity != null">departure_city = #{departureCity},</if>
+            <if test="destinationCity != null and destinationCity != ''">destination_city = #{destinationCity},</if>
+            <if test="travelDays != null">travel_days = #{travelDays},</if>
+            <if test="startDate != null">start_date = #{startDate},</if>
+            <if test="endDate != null">end_date = #{endDate},</if>
+            <if test="totalBudget != null">total_budget = #{totalBudget},</if>
+            <if test="peopleCount != null">people_count = #{peopleCount},</if>
+            <if test="peopleType != null">people_type = #{peopleType},</if>
+            <if test="consumptionLevel != null">consumption_level = #{consumptionLevel},</if>
+            <if test="trafficPrefer != null">traffic_prefer = #{trafficPrefer},</if>
+            <if test="accommodationPrefer != null">accommodation_prefer = #{accommodationPrefer},</if>
+            <if test="scenicTypePrefer != null">scenic_type_prefer = #{scenicTypePrefer},</if>
+            <if test="planTitle != null">plan_title = #{planTitle},</if>
+            <if test="planSummary != null">plan_summary = #{planSummary},</if>
+            <if test="planSource != null">plan_source = #{planSource},</if>
+            <if test="planStatus != null">plan_status = #{planStatus},</if>
+            <if test="totalCost != null">total_cost = #{totalCost},</if>
+            <if test="spotCount != null">spot_count = #{spotCount},</if>
+            <if test="aiModel != null">ai_model = #{aiModel},</if>
+            <if test="generationTime != null">generation_time = #{generationTime},</if>
+            <if test="promptSnapshot != null">prompt_snapshot = #{promptSnapshot},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizTravelPlanById" parameterType="Long">
+        delete from biz_travel_plan where id = #{id}
+    </delete>
+
+    <delete id="deleteBizTravelPlanByIds" parameterType="String">
+        delete from biz_travel_plan where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

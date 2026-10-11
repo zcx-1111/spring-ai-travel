@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizTravelPlanDayMapper">
+    
+    <resultMap type="BizTravelPlanDay" id="BizTravelPlanDayResult">
+        <result property="id"    column="id"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="dayNum"    column="day_num"    />
+        <result property="dayTheme"    column="day_theme"    />
+        <result property="dailyBudget"    column="daily_budget"    />
+        <result property="hotelRecommend"    column="hotel_recommend"    />
+        <result property="trafficDesc"    column="traffic_desc"    />
+        <result property="daySummary"    column="day_summary"    />
+        <result property="attention"    column="attention"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizTravelPlanDayVo">
+        select id, plan_id, day_num, day_theme, daily_budget, hotel_recommend, traffic_desc, day_summary, attention, create_by, create_time, update_by, update_time, remark, del_flag from biz_travel_plan_day
+    </sql>
+
+    <select id="selectBizTravelPlanDayList" parameterType="BizTravelPlanDay" resultMap="BizTravelPlanDayResult">
+        <include refid="selectBizTravelPlanDayVo"/>
+        <where>  
+            <if test="planId != null "> and plan_id = #{planId}</if>
+            <if test="dayNum != null "> and day_num = #{dayNum}</if>
+            <if test="dayTheme != null  and dayTheme != ''"> and day_theme = #{dayTheme}</if>
+            <if test="dailyBudget != null "> and daily_budget = #{dailyBudget}</if>
+            <if test="hotelRecommend != null  and hotelRecommend != ''"> and hotel_recommend = #{hotelRecommend}</if>
+            <if test="trafficDesc != null  and trafficDesc != ''"> and traffic_desc = #{trafficDesc}</if>
+            <if test="daySummary != null  and daySummary != ''"> and day_summary = #{daySummary}</if>
+            <if test="attention != null  and attention != ''"> and attention = #{attention}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizTravelPlanDayById" parameterType="Long" resultMap="BizTravelPlanDayResult">
+        <include refid="selectBizTravelPlanDayVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizTravelPlanDay" parameterType="BizTravelPlanDay" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_travel_plan_day
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planId != null">plan_id,</if>
+            <if test="dayNum != null">day_num,</if>
+            <if test="dayTheme != null">day_theme,</if>
+            <if test="dailyBudget != null">daily_budget,</if>
+            <if test="hotelRecommend != null">hotel_recommend,</if>
+            <if test="trafficDesc != null">traffic_desc,</if>
+            <if test="daySummary != null">day_summary,</if>
+            <if test="attention != null">attention,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="planId != null">#{planId},</if>
+            <if test="dayNum != null">#{dayNum},</if>
+            <if test="dayTheme != null">#{dayTheme},</if>
+            <if test="dailyBudget != null">#{dailyBudget},</if>
+            <if test="hotelRecommend != null">#{hotelRecommend},</if>
+            <if test="trafficDesc != null">#{trafficDesc},</if>
+            <if test="daySummary != null">#{daySummary},</if>
+            <if test="attention != null">#{attention},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizTravelPlanDay" parameterType="BizTravelPlanDay">
+        update biz_travel_plan_day
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="dayNum != null">day_num = #{dayNum},</if>
+            <if test="dayTheme != null">day_theme = #{dayTheme},</if>
+            <if test="dailyBudget != null">daily_budget = #{dailyBudget},</if>
+            <if test="hotelRecommend != null">hotel_recommend = #{hotelRecommend},</if>
+            <if test="trafficDesc != null">traffic_desc = #{trafficDesc},</if>
+            <if test="daySummary != null">day_summary = #{daySummary},</if>
+            <if test="attention != null">attention = #{attention},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizTravelPlanDayById" parameterType="Long">
+        delete from biz_travel_plan_day where id = #{id}
+    </delete>
+
+    <delete id="deleteBizTravelPlanDayByIds" parameterType="String">
+        delete from biz_travel_plan_day where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

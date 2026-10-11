@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizUserTravelPreferenceMapper">
+    
+    <resultMap type="BizUserTravelPreference" id="BizUserTravelPreferenceResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="defaultDeparture"    column="default_departure"    />
+        <result property="budgetLevel"    column="budget_level"    />
+        <result property="travelStyle"    column="travel_style"    />
+        <result property="scenicTypePrefer"    column="scenic_type_prefer"    />
+        <result property="trafficPrefer"    column="traffic_prefer"    />
+        <result property="accommodationPrefer"    column="accommodation_prefer"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizUserTravelPreferenceVo">
+        select id, user_id, default_departure, budget_level, travel_style, scenic_type_prefer, traffic_prefer, accommodation_prefer, create_by, create_time, update_by, update_time, remark, del_flag from biz_user_travel_preference
+    </sql>
+
+    <select id="selectBizUserTravelPreferenceList" parameterType="BizUserTravelPreference" resultMap="BizUserTravelPreferenceResult">
+        <include refid="selectBizUserTravelPreferenceVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="defaultDeparture != null  and defaultDeparture != ''"> and default_departure = #{defaultDeparture}</if>
+            <if test="budgetLevel != null "> and budget_level = #{budgetLevel}</if>
+            <if test="travelStyle != null  and travelStyle != ''"> and travel_style = #{travelStyle}</if>
+            <if test="scenicTypePrefer != null  and scenicTypePrefer != ''"> and scenic_type_prefer = #{scenicTypePrefer}</if>
+            <if test="trafficPrefer != null "> and traffic_prefer = #{trafficPrefer}</if>
+            <if test="accommodationPrefer != null "> and accommodation_prefer = #{accommodationPrefer}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizUserTravelPreferenceById" parameterType="Long" resultMap="BizUserTravelPreferenceResult">
+        <include refid="selectBizUserTravelPreferenceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizUserTravelPreference" parameterType="BizUserTravelPreference" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_user_travel_preference
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="defaultDeparture != null">default_departure,</if>
+            <if test="budgetLevel != null">budget_level,</if>
+            <if test="travelStyle != null">travel_style,</if>
+            <if test="scenicTypePrefer != null">scenic_type_prefer,</if>
+            <if test="trafficPrefer != null">traffic_prefer,</if>
+            <if test="accommodationPrefer != null">accommodation_prefer,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="defaultDeparture != null">#{defaultDeparture},</if>
+            <if test="budgetLevel != null">#{budgetLevel},</if>
+            <if test="travelStyle != null">#{travelStyle},</if>
+            <if test="scenicTypePrefer != null">#{scenicTypePrefer},</if>
+            <if test="trafficPrefer != null">#{trafficPrefer},</if>
+            <if test="accommodationPrefer != null">#{accommodationPrefer},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizUserTravelPreference" parameterType="BizUserTravelPreference">
+        update biz_user_travel_preference
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="defaultDeparture != null">default_departure = #{defaultDeparture},</if>
+            <if test="budgetLevel != null">budget_level = #{budgetLevel},</if>
+            <if test="travelStyle != null">travel_style = #{travelStyle},</if>
+            <if test="scenicTypePrefer != null">scenic_type_prefer = #{scenicTypePrefer},</if>
+            <if test="trafficPrefer != null">traffic_prefer = #{trafficPrefer},</if>
+            <if test="accommodationPrefer != null">accommodation_prefer = #{accommodationPrefer},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizUserTravelPreferenceById" parameterType="Long">
+        delete from biz_user_travel_preference where id = #{id}
+    </delete>
+
+    <delete id="deleteBizUserTravelPreferenceByIds" parameterType="String">
+        delete from biz_user_travel_preference where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

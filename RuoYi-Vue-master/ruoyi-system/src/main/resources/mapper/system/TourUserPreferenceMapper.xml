@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TourUserPreferenceMapper">
+    
+    <resultMap type="TourUserPreference" id="TourUserPreferenceResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="budget"    column="budget"    />
+        <result property="travelDays"    column="travel_days"    />
+        <result property="travelType"    column="travel_type"    />
+        <result property="preferredSeason"    column="preferred_season"    />
+        <result property="crowd"    column="crowd"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectTourUserPreferenceVo">
+        select id, user_id, budget, travel_days, travel_type, preferred_season, crowd, create_time, update_time, del_flag from tour_user_preference
+    </sql>
+
+    <select id="selectTourUserPreferenceList" parameterType="TourUserPreference" resultMap="TourUserPreferenceResult">
+        <include refid="selectTourUserPreferenceVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="budget != null  and budget != ''"> and budget = #{budget}</if>
+            <if test="travelDays != null "> and travel_days = #{travelDays}</if>
+            <if test="travelType != null  and travelType != ''"> and travel_type = #{travelType}</if>
+            <if test="preferredSeason != null  and preferredSeason != ''"> and preferred_season = #{preferredSeason}</if>
+            <if test="crowd != null  and crowd != ''"> and crowd = #{crowd}</if>
+        </where>
+    </select>
+    
+    <select id="selectTourUserPreferenceById" parameterType="Long" resultMap="TourUserPreferenceResult">
+        <include refid="selectTourUserPreferenceVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTourUserPreference" parameterType="TourUserPreference" useGeneratedKeys="true" keyProperty="id">
+        insert into tour_user_preference
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="budget != null">budget,</if>
+            <if test="travelDays != null">travel_days,</if>
+            <if test="travelType != null">travel_type,</if>
+            <if test="preferredSeason != null">preferred_season,</if>
+            <if test="crowd != null">crowd,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="budget != null">#{budget},</if>
+            <if test="travelDays != null">#{travelDays},</if>
+            <if test="travelType != null">#{travelType},</if>
+            <if test="preferredSeason != null">#{preferredSeason},</if>
+            <if test="crowd != null">#{crowd},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTourUserPreference" parameterType="TourUserPreference">
+        update tour_user_preference
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="budget != null">budget = #{budget},</if>
+            <if test="travelDays != null">travel_days = #{travelDays},</if>
+            <if test="travelType != null">travel_type = #{travelType},</if>
+            <if test="preferredSeason != null">preferred_season = #{preferredSeason},</if>
+            <if test="crowd != null">crowd = #{crowd},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTourUserPreferenceById" parameterType="Long">
+        delete from tour_user_preference where id = #{id}
+    </delete>
+
+    <delete id="deleteTourUserPreferenceByIds" parameterType="String">
+        delete from tour_user_preference where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

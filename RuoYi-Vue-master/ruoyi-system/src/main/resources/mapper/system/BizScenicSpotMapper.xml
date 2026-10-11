@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizScenicSpotMapper">
+    
+    <resultMap type="BizScenicSpot" id="BizScenicSpotResult">
+        <result property="id"    column="id"    />
+        <result property="spotName"    column="spot_name"    />
+        <result property="province"    column="province"    />
+        <result property="city"    column="city"    />
+        <result property="address"    column="address"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="spotLevel"    column="spot_level"    />
+        <result property="playHours"    column="play_hours"    />
+        <result property="adultPrice"    column="adult_price"    />
+        <result property="childPrice"    column="child_price"    />
+        <result property="oldPrice"    column="old_price"    />
+        <result property="openTimeDesc"    column="open_time_desc"    />
+        <result property="bestSeason"    column="best_season"    />
+        <result property="spotIntro"    column="spot_intro"    />
+        <result property="playNotice"    column="play_notice"    />
+        <result property="coverImg"    column="cover_img"    />
+        <result property="categoryId"    column="category_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+        <!-- 标签名集合（逗号分隔，仅ES同步/详情聚合查询会返回该列） -->
+        <result property="tags"       column="tags"        />
+    </resultMap>
+
+    <sql id="selectBizScenicSpotVo">
+        select id, spot_name, province, city, address, longitude, latitude, spot_level, play_hours, adult_price, child_price, old_price, open_time_desc, best_season, spot_intro, play_notice, cover_img, category_id, create_by, create_time, update_by, update_time, remark, del_flag from biz_scenic_spot
+    </sql>
+
+    <select id="selectBizScenicSpotList" parameterType="BizScenicSpot" resultMap="BizScenicSpotResult">
+        <include refid="selectBizScenicSpotVo"/>
+        <where>  
+            <if test="spotName != null  and spotName != ''"> and spot_name like concat('%', #{spotName}, '%')</if>
+            <if test="province != null  and province != ''"> and province = #{province}</if>
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="spotLevel != null  and spotLevel != ''"> and spot_level = #{spotLevel}</if>
+            <if test="playHours != null "> and play_hours = #{playHours}</if>
+            <if test="adultPrice != null "> and adult_price = #{adultPrice}</if>
+            <if test="childPrice != null "> and child_price = #{childPrice}</if>
+            <if test="oldPrice != null "> and old_price = #{oldPrice}</if>
+            <if test="openTimeDesc != null  and openTimeDesc != ''"> and open_time_desc = #{openTimeDesc}</if>
+            <if test="bestSeason != null  and bestSeason != ''"> and best_season = #{bestSeason}</if>
+            <if test="spotIntro != null  and spotIntro != ''"> and spot_intro = #{spotIntro}</if>
+            <if test="playNotice != null  and playNotice != ''"> and play_notice = #{playNotice}</if>
+            <if test="coverImg != null  and coverImg != ''"> and cover_img = #{coverImg}</if>
+            <if test="categoryId != null "> and category_id = #{categoryId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizScenicSpotById" parameterType="Long" resultMap="BizScenicSpotResult">
+        <include refid="selectBizScenicSpotVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizScenicSpot" parameterType="BizScenicSpot" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_scenic_spot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spotName != null and spotName != ''">spot_name,</if>
+            <if test="province != null">province,</if>
+            <if test="city != null and city != ''">city,</if>
+            <if test="address != null">address,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="spotLevel != null">spot_level,</if>
+            <if test="playHours != null">play_hours,</if>
+            <if test="adultPrice != null">adult_price,</if>
+            <if test="childPrice != null">child_price,</if>
+            <if test="oldPrice != null">old_price,</if>
+            <if test="openTimeDesc != null">open_time_desc,</if>
+            <if test="bestSeason != null">best_season,</if>
+            <if test="spotIntro != null">spot_intro,</if>
+            <if test="playNotice != null">play_notice,</if>
+            <if test="coverImg != null">cover_img,</if>
+            <if test="categoryId != null">category_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spotName != null and spotName != ''">#{spotName},</if>
+            <if test="province != null">#{province},</if>
+            <if test="city != null and city != ''">#{city},</if>
+            <if test="address != null">#{address},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="spotLevel != null">#{spotLevel},</if>
+            <if test="playHours != null">#{playHours},</if>
+            <if test="adultPrice != null">#{adultPrice},</if>
+            <if test="childPrice != null">#{childPrice},</if>
+            <if test="oldPrice != null">#{oldPrice},</if>
+            <if test="openTimeDesc != null">#{openTimeDesc},</if>
+            <if test="bestSeason != null">#{bestSeason},</if>
+            <if test="spotIntro != null">#{spotIntro},</if>
+            <if test="playNotice != null">#{playNotice},</if>
+            <if test="coverImg != null">#{coverImg},</if>
+            <if test="categoryId != null">#{categoryId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizScenicSpot" parameterType="BizScenicSpot">
+        update biz_scenic_spot
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spotName != null and spotName != ''">spot_name = #{spotName},</if>
+            <if test="province != null">province = #{province},</if>
+            <if test="city != null and city != ''">city = #{city},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="spotLevel != null">spot_level = #{spotLevel},</if>
+            <if test="playHours != null">play_hours = #{playHours},</if>
+            <if test="adultPrice != null">adult_price = #{adultPrice},</if>
+            <if test="childPrice != null">child_price = #{childPrice},</if>
+            <if test="oldPrice != null">old_price = #{oldPrice},</if>
+            <if test="openTimeDesc != null">open_time_desc = #{openTimeDesc},</if>
+            <if test="bestSeason != null">best_season = #{bestSeason},</if>
+            <if test="spotIntro != null">spot_intro = #{spotIntro},</if>
+            <if test="playNotice != null">play_notice = #{playNotice},</if>
+            <if test="coverImg != null">cover_img = #{coverImg},</if>
+            <if test="categoryId != null">category_id = #{categoryId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizScenicSpotById" parameterType="Long">
+        delete from biz_scenic_spot where id = #{id}
+    </delete>
+
+    <delete id="deleteBizScenicSpotByIds" parameterType="String">
+        delete from biz_scenic_spot where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!-- AI行程生成：严格按目的地城市召回同城景点（5A/4A优先） -->
+    <!--
+        严格按「城市」召回景点：只匹配 city 字段，绝不匹配 spot_name。
+        否则搜"桂林"会把海南"小桂林"等外地同名景点误召回，造成AI跨城编排。
+        入参为已归一化的城市核心名（如"桂林"），可同时命中 city="桂林"/"桂林市"。
+    -->
+    <select id="selectSpotsByDestination" resultMap="BizScenicSpotResult">
+        select id, spot_name, province, city, address, longitude, latitude, spot_level, play_hours,
+               adult_price, child_price, old_price, open_time_desc, best_season, spot_intro,
+               play_notice, cover_img, category_id, del_flag
+        from biz_scenic_spot
+        where del_flag = 0
+          and city like concat('%', #{destination}, '%')
+        order by field(spot_level, '5A', '4A', '3A', '2A', '1A') desc, id asc
+    </select>
+
+    <!-- 城市名归一化：返回知识库中真实存在、且与输入核心名匹配的标准城市名 -->
+    <select id="selectCitiesByCityKey" resultType="java.lang.String">
+        select distinct city
+        from biz_scenic_spot
+        where del_flag = 0
+          and city is not null
+          and city like concat('%', #{cityKey}, '%')
+    </select>
+
+    <!-- 根据ID集合批量查询景点 -->
+    <select id="selectBizScenicSpotByIds" resultMap="BizScenicSpotResult">
+        <include refid="selectBizScenicSpotVo"/>
+        where del_flag = 0 and id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <!-- 批量插入景点（CSV导入专用），用ON DUPLICATE KEY不处理，由Service层先查重 -->
+    <insert id="batchInsertBizScenicSpot" parameterType="java.util.List">
+        insert into biz_scenic_spot
+        (spot_name, province, city, address, spot_level, play_hours, adult_price,
+         open_time_desc, best_season, spot_intro, play_notice, cover_img, create_by, create_time, del_flag)
+        values
+        <foreach item="spot" collection="list" separator=",">
+            (#{spot.spotName}, #{spot.province}, #{spot.city}, #{spot.address}, #{spot.spotLevel},
+             #{spot.playHours}, #{spot.adultPrice}, #{spot.openTimeDesc}, #{spot.bestSeason},
+             #{spot.spotIntro}, #{spot.playNotice}, #{spot.coverImg}, #{spot.createBy}, #{spot.createTime}, 0)
+        </foreach>
+    </insert>
+
+    <!-- 按名称列表查询已存在的景点名称（导入查重用） -->
+    <select id="selectExistingSpotNames" resultType="java.lang.String">
+        select spot_name from biz_scenic_spot where spot_name in
+        <foreach item="name" collection="names" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </select>
+
+    <!-- ==================== Elasticsearch 全文检索相关（增量新增，不影响原有SQL） ==================== -->
+
+    <!-- ES同步复用的列：景点主表字段 + 标签名聚合（逗号分隔） -->
+    <sql id="esSyncSpotColumns">
+        s.id, s.spot_name, s.province, s.city, s.address, s.longitude, s.latitude, s.spot_level,
+        s.play_hours, s.adult_price, s.child_price, s.old_price, s.open_time_desc, s.best_season,
+        s.spot_intro, s.play_notice, s.cover_img, s.category_id, s.create_by, s.create_time,
+        s.update_by, s.update_time, s.remark, s.del_flag,
+        group_concat(t.tag_name order by t.sort separator ',') as tags
+    </sql>
+
+    <!-- ES同步：LEFT JOIN标签关联表，按ID游标稳定分页（s.id为主键，ONLY_FULL_GROUP_BY下函数依赖成立） -->
+    <select id="selectSpotPageForEsSync" resultMap="BizScenicSpotResult">
+        select <include refid="esSyncSpotColumns"/>
+        from biz_scenic_spot s
+        left join biz_scenic_spot_tag_rel r on r.spot_id = s.id and r.del_flag = 0
+        left join biz_scenic_tag t on t.id = r.tag_id and t.del_flag = 0
+        where s.del_flag = 0 and s.id &gt; #{lastId}
+        group by s.id
+        order by s.id asc
+        limit #{size}
+    </select>
+
+    <!-- ES增量：按ID查单个景点（含标签聚合） -->
+    <select id="selectSpotForEsById" resultMap="BizScenicSpotResult">
+        select <include refid="esSyncSpotColumns"/>
+        from biz_scenic_spot s
+        left join biz_scenic_spot_tag_rel r on r.spot_id = s.id and r.del_flag = 0
+        left join biz_scenic_tag t on t.id = r.tag_id and t.del_flag = 0
+        where s.id = #{id}
+        group by s.id
+    </select>
+
+    <!-- ES降级：MySQL多字段like模糊检索（名称/地址/简介/标签名）。
+         多个拆分词之间OR（贴近ES分词后任一term命中即可召回）；
+         排序：名称命中关键词数量多者优先（精确指向的景点排前），其次景区等级，再次ID稳定排序 -->
+    <select id="searchSpotByKeywordLike" resultMap="BizScenicSpotResult">
+        <include refid="selectBizScenicSpotVo"/>
+        <where>
+            del_flag = 0
+            <if test="keywords != null and keywords.size() > 0">
+                and (
+                <foreach collection="keywords" item="kw" separator=" or ">
+                    (
+                        spot_name like concat('%', #{kw}, '%')
+                        or address like concat('%', #{kw}, '%')
+                        or spot_intro like concat('%', #{kw}, '%')
+                        or exists (
+                            select 1 from biz_scenic_spot_tag_rel r
+                            inner join biz_scenic_tag t on t.id = r.tag_id
+                            where r.spot_id = biz_scenic_spot.id
+                              and r.del_flag = 0 and t.del_flag = 0
+                              and t.tag_name like concat('%', #{kw}, '%')
+                        )
+                    )
+                </foreach>
+                )
+            </if>
+            <if test="cityKey != null and cityKey != ''">
+                and city like concat('%', #{cityKey}, '%')
+            </if>
+        </where>
+        order by
+        <choose>
+            <when test="keywords != null and keywords.size() > 0">
+                (
+                <foreach collection="keywords" item="kw" separator=" + ">
+                    case when spot_name like concat('%', #{kw}, '%') then 1 else 0 end
+                </foreach>
+                ) desc,
+                field(spot_level, '5A', '4A', '3A', '2A', '1A') desc, id asc
+            </when>
+            <otherwise>
+                field(spot_level, '5A', '4A', '3A', '2A', '1A') desc, id asc
+            </otherwise>
+        </choose>
+        limit #{offset}, #{size}
+    </select>
+
+    <!-- ES降级：关键词检索命中总数（条件必须与searchSpotByKeywordLike保持一致） -->
+    <select id="countSpotByKeywordLike" resultType="long">
+        select count(*) from biz_scenic_spot
+        <where>
+            del_flag = 0
+            <if test="keywords != null and keywords.size() > 0">
+                and (
+                <foreach collection="keywords" item="kw" separator=" or ">
+                    (
+                        spot_name like concat('%', #{kw}, '%')
+                        or address like concat('%', #{kw}, '%')
+                        or spot_intro like concat('%', #{kw}, '%')
+                        or exists (
+                            select 1 from biz_scenic_spot_tag_rel r
+                            inner join biz_scenic_tag t on t.id = r.tag_id
+                            where r.spot_id = biz_scenic_spot.id
+                              and r.del_flag = 0 and t.del_flag = 0
+                              and t.tag_name like concat('%', #{kw}, '%')
+                        )
+                    )
+                </foreach>
+                )
+            </if>
+            <if test="cityKey != null and cityKey != ''">
+                and city like concat('%', #{cityKey}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>

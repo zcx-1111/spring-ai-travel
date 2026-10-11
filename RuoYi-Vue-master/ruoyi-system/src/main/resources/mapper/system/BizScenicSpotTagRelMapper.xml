@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizScenicSpotTagRelMapper">
+    
+    <resultMap type="BizScenicSpotTagRel" id="BizScenicSpotTagRelResult">
+        <result property="id"    column="id"    />
+        <result property="spotId"    column="spot_id"    />
+        <result property="tagId"    column="tag_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizScenicSpotTagRelVo">
+        select id, spot_id, tag_id, create_by, create_time, update_by, update_time, remark, del_flag from biz_scenic_spot_tag_rel
+    </sql>
+
+    <select id="selectBizScenicSpotTagRelList" parameterType="BizScenicSpotTagRel" resultMap="BizScenicSpotTagRelResult">
+        <include refid="selectBizScenicSpotTagRelVo"/>
+        <where>  
+            <if test="spotId != null "> and spot_id = #{spotId}</if>
+            <if test="tagId != null "> and tag_id = #{tagId}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizScenicSpotTagRelById" parameterType="Long" resultMap="BizScenicSpotTagRelResult">
+        <include refid="selectBizScenicSpotTagRelVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizScenicSpotTagRel" parameterType="BizScenicSpotTagRel" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_scenic_spot_tag_rel
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="spotId != null">spot_id,</if>
+            <if test="tagId != null">tag_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="spotId != null">#{spotId},</if>
+            <if test="tagId != null">#{tagId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizScenicSpotTagRel" parameterType="BizScenicSpotTagRel">
+        update biz_scenic_spot_tag_rel
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="spotId != null">spot_id = #{spotId},</if>
+            <if test="tagId != null">tag_id = #{tagId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizScenicSpotTagRelById" parameterType="Long">
+        delete from biz_scenic_spot_tag_rel where id = #{id}
+    </delete>
+
+    <delete id="deleteBizScenicSpotTagRelByIds" parameterType="String">
+        delete from biz_scenic_spot_tag_rel where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

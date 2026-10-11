@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>ruoyi</artifactId>
+        <groupId>com.ruoyi</groupId>
+        <version>3.9.2</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>ruoyi-system</artifactId>
+
+    <description>
+        system系统模块
+    </description>
+
+    <dependencies>
+
+        <!-- 通用工具-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-common</artifactId>
+        </dependency>
+
+        <!-- Spring AI 官方 OpenAI Starter：通过阿里云百炼 DashScope 的 OpenAI 兼容模式接入
+             （base-url=https://dashscope.aliyuncs.com/compatible-mode），
+             同时自动装配 ChatModel 与 EmbeddingModel。
+             说明：spring-ai-alibaba-starter-dashscope 目前最新2.0.0-M1.1是为Spring AI
+             2.0.0-M1编译的里程碑版本，与本项目Spring AI 2.0.1 GA存在二进制不兼容
+             （缺失类/方法），故改用官方OpenAI Starter走兼容模式，稳定且版本完全对齐 -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-model-openai</artifactId>
+        </dependency>
+
+        <!-- Qdrant 向量库 starter（VectorStore 自动装配，版本由 spring-ai-bom 管理） -->
+        <dependency>
+            <groupId>org.springframework.ai</groupId>
+            <artifactId>spring-ai-starter-vector-store-qdrant</artifactId>
+        </dependency>
+
+        <!-- Elasticsearch 全文检索（景点关键词检索）
+             SpringBoot 4.1.x 管理的是 Spring Data Elasticsearch 6.x，
+             底层使用新版 co.elastic.clients Java API Client（旧版 RestHighLevelClient 已移除），
+             版本由 spring-boot-dependencies BOM 统一管理，无需显式指定 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

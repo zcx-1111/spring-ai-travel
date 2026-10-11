@@ -1,0 +1,27 @@
+# Local credentials and environment files
+.env
+.env.*
+!.env.example
+**/apikey
+**/application-local.yml
+**/application-local.yaml
+
+# Local logs, imports, and generated datasets
+*.log
+/import_progress.csv
+/batch_import_scenic.ps1
+
+# Java build output
+**/target/
+
+# JavaScript dependencies and build output
+**/node_modules/
+**/dist/
+**/coverage/
+
+# IDE and OS files
+**/.idea/
+**/.vscode/
+**/.DS_Store
+Thumbs.db
+

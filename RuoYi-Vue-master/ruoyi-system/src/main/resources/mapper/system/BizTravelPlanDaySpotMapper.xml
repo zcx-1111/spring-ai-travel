@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizTravelPlanDaySpotMapper">
+    
+    <resultMap type="BizTravelPlanDaySpot" id="BizTravelPlanDaySpotResult">
+        <result property="id"    column="id"    />
+        <result property="planDayId"    column="plan_day_id"    />
+        <result property="spotId"    column="spot_id"    />
+        <result property="sortNum"    column="sort_num"    />
+        <result property="playDuration"    column="play_duration"    />
+        <result property="ticketCost"    column="ticket_cost"    />
+        <result property="playTip"    column="play_tip"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizTravelPlanDaySpotVo">
+        select id, plan_day_id, spot_id, sort_num, play_duration, ticket_cost, play_tip, create_by, create_time, update_by, update_time, remark, del_flag from biz_travel_plan_day_spot
+    </sql>
+
+    <select id="selectBizTravelPlanDaySpotList" parameterType="BizTravelPlanDaySpot" resultMap="BizTravelPlanDaySpotResult">
+        <include refid="selectBizTravelPlanDaySpotVo"/>
+        <where>  
+            <if test="planDayId != null "> and plan_day_id = #{planDayId}</if>
+            <if test="spotId != null "> and spot_id = #{spotId}</if>
+            <if test="sortNum != null "> and sort_num = #{sortNum}</if>
+            <if test="playDuration != null "> and play_duration = #{playDuration}</if>
+            <if test="ticketCost != null "> and ticket_cost = #{ticketCost}</if>
+            <if test="playTip != null  and playTip != ''"> and play_tip = #{playTip}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizTravelPlanDaySpotById" parameterType="Long" resultMap="BizTravelPlanDaySpotResult">
+        <include refid="selectBizTravelPlanDaySpotVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizTravelPlanDaySpot" parameterType="BizTravelPlanDaySpot" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_travel_plan_day_spot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="planDayId != null">plan_day_id,</if>
+            <if test="spotId != null">spot_id,</if>
+            <if test="sortNum != null">sort_num,</if>
+            <if test="playDuration != null">play_duration,</if>
+            <if test="ticketCost != null">ticket_cost,</if>
+            <if test="playTip != null">play_tip,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="planDayId != null">#{planDayId},</if>
+            <if test="spotId != null">#{spotId},</if>
+            <if test="sortNum != null">#{sortNum},</if>
+            <if test="playDuration != null">#{playDuration},</if>
+            <if test="ticketCost != null">#{ticketCost},</if>
+            <if test="playTip != null">#{playTip},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizTravelPlanDaySpot" parameterType="BizTravelPlanDaySpot">
+        update biz_travel_plan_day_spot
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="planDayId != null">plan_day_id = #{planDayId},</if>
+            <if test="spotId != null">spot_id = #{spotId},</if>
+            <if test="sortNum != null">sort_num = #{sortNum},</if>
+            <if test="playDuration != null">play_duration = #{playDuration},</if>
+            <if test="ticketCost != null">ticket_cost = #{ticketCost},</if>
+            <if test="playTip != null">play_tip = #{playTip},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizTravelPlanDaySpotById" parameterType="Long">
+        delete from biz_travel_plan_day_spot where id = #{id}
+    </delete>
+
+    <delete id="deleteBizTravelPlanDaySpotByIds" parameterType="String">
+        delete from biz_travel_plan_day_spot where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

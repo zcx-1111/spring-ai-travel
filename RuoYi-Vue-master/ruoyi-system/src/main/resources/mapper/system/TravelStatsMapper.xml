@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TravelStatsMapper">
+
+    <!-- 景点总数 -->
+    <select id="countScenicSpots" resultType="int">
+        SELECT COUNT(*) FROM biz_scenic_spot WHERE del_flag = '0'
+    </select>
+
+    <!-- 行程方案总数 -->
+    <select id="countTravelPlans" resultType="int">
+        SELECT COUNT(*) FROM biz_travel_plan WHERE del_flag = '0'
+    </select>
+
+    <!-- 问答交互总次数（用户角色消息数） -->
+    <select id="countChatMessages" resultType="int">
+        SELECT COUNT(*) FROM biz_chat_message WHERE message_role = 'user'
+    </select>
+
+    <!-- 注册游客总数 -->
+    <select id="countTourUsers" resultType="int">
+        SELECT COUNT(*) FROM tour_user WHERE del_flag = '0'
+    </select>
+
+    <!-- 景点等级分布 -->
+    <select id="spotLevelDistribution" resultType="java.util.Map">
+        SELECT
+            IFNULL(NULLIF(TRIM(spot_level), ''), '未评级') AS name,
+            COUNT(*) AS value
+        FROM biz_scenic_spot
+        WHERE del_flag = '0'
+        GROUP BY spot_level
+        ORDER BY value DESC
+    </select>
+
+    <!-- 各城市景点数量 TOP8 -->
+    <select id="cityTopSpots" resultType="java.util.Map">
+        SELECT city AS name, COUNT(*) AS value
+        FROM biz_scenic_spot
+        WHERE del_flag = '0' AND city IS NOT NULL AND city != ''
+        GROUP BY city
+        ORDER BY value DESC
+        LIMIT 8
+    </select>
+
+    <!-- 各省份景点数量 TOP10 -->
+    <select id="provinceTopSpots" resultType="java.util.Map">
+        SELECT IFNULL(NULLIF(TRIM(province), ''), '未知') AS name, COUNT(*) AS value
+        FROM biz_scenic_spot
+        WHERE del_flag = '0'
+        GROUP BY province
+        ORDER BY value DESC
+        LIMIT 10
+    </select>
+
+    <!-- 最近 7 天每日用户问答量趋势 -->
+    <select id="chatTrend7Days" resultType="java.util.Map">
+        SELECT
+            DATE_FORMAT(d.d, '%Y-%m-%d') AS date,
+            COUNT(m.id) AS count
+        FROM
+            (SELECT CURDATE() - INTERVAL 6 DAY AS d
+             UNION ALL SELECT CURDATE() - INTERVAL 5 DAY
+             UNION ALL SELECT CURDATE() - INTERVAL 4 DAY
+             UNION ALL SELECT CURDATE() - INTERVAL 3 DAY
+             UNION ALL SELECT CURDATE() - INTERVAL 2 DAY
+             UNION ALL SELECT CURDATE() - INTERVAL 1 DAY
+             UNION ALL SELECT CURDATE()) d
+        LEFT JOIN biz_chat_message m
+            ON DATE(m.send_time) = d.d AND m.message_role = 'user'
+        GROUP BY d.d
+        ORDER BY d.d
+    </select>
+
+    <!-- 用户提问分类分布（按关键词匹配） -->
+    <select id="chatCategoryDistribution" resultType="java.util.Map">
+        SELECT '景点咨询' AS name, COUNT(*) AS value FROM biz_chat_message
+            WHERE message_role = 'user'
+            AND (message_content LIKE '%景点%' OR message_content LIKE '%景区%'
+                 OR message_content LIKE '%门票%' OR message_content LIKE '%玩%')
+        UNION ALL
+        SELECT '行程规划', COUNT(*) FROM biz_chat_message
+            WHERE message_role = 'user'
+            AND (message_content LIKE '%行程%' OR message_content LIKE '%路线%'
+                 OR message_content LIKE '%规划%' OR message_content LIKE '%天%')
+        UNION ALL
+        SELECT '美食推荐', COUNT(*) FROM biz_chat_message
+            WHERE message_role = 'user'
+            AND (message_content LIKE '%吃%' OR message_content LIKE '%美食%' OR message_content LIKE '%小吃%')
+        UNION ALL
+        SELECT '交通住宿', COUNT(*) FROM biz_chat_message
+            WHERE message_role = 'user'
+            AND (message_content LIKE '%住%' OR message_content LIKE '%酒店%'
+                 OR message_content LIKE '%交通%' OR message_content LIKE '%车%' OR message_content LIKE '%飞机%')
+        UNION ALL
+        SELECT '其他', COUNT(*) FROM biz_chat_message
+            WHERE message_role = 'user'
+            AND message_content NOT LIKE '%景点%' AND message_content NOT LIKE '%景区%'
+            AND message_content NOT LIKE '%门票%' AND message_content NOT LIKE '%玩%'
+            AND message_content NOT LIKE '%行程%' AND message_content NOT LIKE '%路线%'
+            AND message_content NOT LIKE '%规划%' AND message_content NOT LIKE '%天%'
+            AND message_content NOT LIKE '%吃%' AND message_content NOT LIKE '%美食%'
+            AND message_content NOT LIKE '%小吃%' AND message_content NOT LIKE '%住%'
+            AND message_content NOT LIKE '%酒店%' AND message_content NOT LIKE '%交通%'
+            AND message_content NOT LIKE '%车%' AND message_content NOT LIKE '%飞机%'
+    </select>
+
+    <!-- 最近 10 条问答记录（用户提问 + 对应AI回复） -->
+    <select id="recentChats" resultType="java.util.Map">
+        SELECT
+            m1.message_content AS question,
+            LEFT(IFNULL((
+                SELECT m2.message_content FROM biz_chat_message m2
+                WHERE m2.session_id = m1.session_id
+                  AND m2.message_role = 'assistant'
+                  AND m2.id > m1.id
+                ORDER BY m2.id ASC
+                LIMIT 1
+            ), '暂无回复'), 120) AS answer,
+            DATE_FORMAT(m1.send_time, '%Y-%m-%d %H:%i:%s') AS askTime
+        FROM biz_chat_message m1
+        WHERE m1.message_role = 'user'
+        ORDER BY m1.send_time DESC
+        LIMIT 10
+    </select>
+
+</mapper>

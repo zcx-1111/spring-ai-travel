@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.BizChatSessionMapper">
+    
+    <resultMap type="BizChatSession" id="BizChatSessionResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="planId"    column="plan_id"    />
+        <result property="sessionTitle"    column="session_title"    />
+        <result property="sessionStatus"    column="session_status"    />
+        <result property="lastMessageTime"    column="last_message_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
+
+    <sql id="selectBizChatSessionVo">
+        select id, user_id, plan_id, session_title, session_status, last_message_time, create_by, create_time, update_by, update_time, remark, del_flag from biz_chat_session
+    </sql>
+
+    <select id="selectBizChatSessionList" parameterType="BizChatSession" resultMap="BizChatSessionResult">
+        <include refid="selectBizChatSessionVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="planId != null "> and plan_id = #{planId}</if>
+            <if test="sessionTitle != null  and sessionTitle != ''"> and session_title = #{sessionTitle}</if>
+            <if test="sessionStatus != null "> and session_status = #{sessionStatus}</if>
+            <if test="lastMessageTime != null "> and last_message_time = #{lastMessageTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectBizChatSessionById" parameterType="Long" resultMap="BizChatSessionResult">
+        <include refid="selectBizChatSessionVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertBizChatSession" parameterType="BizChatSession" useGeneratedKeys="true" keyProperty="id">
+        insert into biz_chat_session
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="planId != null">plan_id,</if>
+            <if test="sessionTitle != null">session_title,</if>
+            <if test="sessionStatus != null">session_status,</if>
+            <if test="lastMessageTime != null">last_message_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="planId != null">#{planId},</if>
+            <if test="sessionTitle != null">#{sessionTitle},</if>
+            <if test="sessionStatus != null">#{sessionStatus},</if>
+            <if test="lastMessageTime != null">#{lastMessageTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
+
+    <update id="updateBizChatSession" parameterType="BizChatSession">
+        update biz_chat_session
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="planId != null">plan_id = #{planId},</if>
+            <if test="sessionTitle != null">session_title = #{sessionTitle},</if>
+            <if test="sessionStatus != null">session_status = #{sessionStatus},</if>
+            <if test="lastMessageTime != null">last_message_time = #{lastMessageTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteBizChatSessionById" parameterType="Long">
+        delete from biz_chat_session where id = #{id}
+    </delete>
+
+    <delete id="deleteBizChatSessionByIds" parameterType="String">
+        delete from biz_chat_session where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
